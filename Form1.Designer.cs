@@ -29,23 +29,10 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-        mainbox = new System.Windows.Forms.ComboBox();
         Continue = new System.Windows.Forms.Button();
         test = new System.Windows.Forms.Label();
+        mainbox = new System.Windows.Forms.ComboBox();
         SuspendLayout();
-        // 
-        // mainbox
-        // 
-        mainbox.AllowDrop = true;
-        mainbox.CausesValidation = false;
-        mainbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        mainbox.FormattingEnabled = true;
-        mainbox.Items.AddRange(new object[] { "Vælg bruger", "Charlotte", "Frederik", "Marie", "Nikolej", "Sara" });
-        mainbox.Location = new System.Drawing.Point(43, 131);
-        mainbox.Name = "mainbox";
-        mainbox.Size = new System.Drawing.Size(160, 28);
-        mainbox.TabIndex = 0;
-        mainbox.Tag = "";
         // 
         // Continue
         // 
@@ -61,28 +48,47 @@ partial class Form1
         // 
         test.Location = new System.Drawing.Point(113, 328);
         test.Name = "test";
-        test.Size = new System.Drawing.Size(75, 56);
+        test.Size = new System.Drawing.Size(354, 213);
         test.TabIndex = 2;
         test.Text = "label1";
+        // 
+        // mainbox
+        // 
+        mainbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+        mainbox.FormattingEnabled = true;
+        mainbox.Location = new System.Drawing.Point(23, 97);
+        mainbox.Name = "mainbox";
+        mainbox.Size = new System.Drawing.Size(181, 23);
+        mainbox.DataSource = new User[]
+        {
+            new User { PersonID = 0, name = "Vælg bruger" },
+            new User { PersonID = 1, name = "Chalotte" },
+            new User { PersonID = 2, name = "Frederik" },
+            new User { PersonID = 3, name = "Marie" },
+            new User { PersonID = 4, name = "Nikolej" },
+            new User { PersonID = 5, name = "Sara" }
+        };
+        mainbox.DisplayMember = "name";
+        mainbox.ValueMember = "PersonID";
         // 
         // Form1
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        ClientSize = new System.Drawing.Size(1200, 825);
+        ClientSize = new System.Drawing.Size(1202, 833);
+        Controls.Add(mainbox);
         Controls.Add(test);
         Controls.Add(Continue);
-        Controls.Add(mainbox);
         StartPosition = System.Windows.Forms.FormStartPosition.Manual;
         Text = "Form1";
         ResumeLayout(false);
     }
 
+    private System.Windows.Forms.ComboBox mainbox;
+
     private System.Windows.Forms.Label test;
 
     private System.Windows.Forms.Button Continue;
-
-    private System.Windows.Forms.ComboBox mainbox;
 
     #endregion
 }

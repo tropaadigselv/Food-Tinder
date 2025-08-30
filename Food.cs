@@ -1,4 +1,4 @@
-﻿namespace Food.CLI
+﻿namespace Food
 {
     public class Food
     {

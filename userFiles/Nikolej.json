@@ -1,0 +1,15 @@
+﻿{
+  "Exclude":[
+    "shrimp",
+    "tuna",
+    "chickpeas",
+    "pineapple",
+    "peanuts",
+    "almonds",
+    "Mayonnaise",
+    "creme fraiche",
+    "avocado",
+    "mushrooms"
+  ],
+  "Diet": null
+}

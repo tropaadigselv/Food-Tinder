@@ -24,6 +24,8 @@ class Get
         {
             ["number"] = "2",
             ["excludeIngredients"] = "onions,tomatoes",
+            ["type"] = "main course",
+            ["instructionsRequired"] = "true",
             ["offset"] = "0"
         };
     
@@ -38,7 +40,7 @@ class Get
 
         Console.WriteLine(response.Results.Count);
     
-        foreach (var food in response?.Results ?? Enumerable.Empty<Food.CLI.Food>())
+        foreach (var food in response?.Results ?? Enumerable.Empty<Food>())
         {
             Console.WriteLine(food.Title);
         }
@@ -48,7 +50,7 @@ class Get
 
 public class FoodSearchResponse
 {
-    public List<Food.CLI.Food> Results { get; set; } = new();
+    public List<Food> Results { get; set; } = new();
     public int Offset { get; set; }
     public int Number { get; set; }
     public int TotalResults { get; set; }

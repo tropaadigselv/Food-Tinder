@@ -1,0 +1,14 @@
+﻿{
+  "Exclude":[
+    "Beans",
+    "Yogurt",
+    "mayonnaise",
+    "creme fraiche",
+    "vinegar",
+    "mushrooms",
+    "eggplant",
+    "kale",
+    "parsnip"
+  ],
+  "Diet": null
+}
