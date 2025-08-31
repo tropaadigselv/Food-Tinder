@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -6,7 +7,7 @@ namespace Food;
 
 class Get
 {
-    async void Start()
+    public static async void Start()
     {
         using HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
@@ -26,11 +27,17 @@ class Get
             ["excludeIngredients"] = "onions,tomatoes",
             ["type"] = "main course",
             ["instructionsRequired"] = "true",
+            ["addRecipeInformation"] = "true",
+            ["addRecipeInstructions"] = "true",
             ["offset"] = "0"
         };
     
         var url = QueryHelpers.AddQueryString(baseurl, queryPrams);
-    
+        
+        // var json = await client.GetStringAsync(url);
+        //
+        // MessageBox.Show(json);
+        
         await using Stream stream = await client.GetStreamAsync(url);
 
         var response = await JsonSerializer.DeserializeAsync<FoodSearchResponse>(
@@ -38,12 +45,15 @@ class Get
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
         );
 
-        Console.WriteLine(response.Results.Count);
-    
+        StringBuilder sb = new StringBuilder();
+        
+
         foreach (var food in response?.Results ?? Enumerable.Empty<Food>())
         {
-            Console.WriteLine(food.Title);
+            sb.Append(food.Title + " " + food.analyzedInstructions.ToString());
+            sb.Append(Environment.NewLine);
         }
+        MessageBox.Show(sb.ToString());
     }
 }
 
