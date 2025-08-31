@@ -39,7 +39,7 @@ public partial class Form1 : Form
         {
             test.Text = par.Exclude[0];
         }
-
-        Get.Start();
+        MessageBox.Show(String.Join(",", par.Exclude));
+        Get.Start(par);
     }
 }

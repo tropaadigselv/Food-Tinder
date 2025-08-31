@@ -7,16 +7,16 @@ namespace Food;
 
 class Get
 {
-    public static async void Start()
+    public static async void Start(Params par)
     {
         using HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Add("x-api-key",new StreamReader("key.txt").ReadLine());
-        await ProcessCallAsync(client);
+        await ProcessCallAsync(client, par);
     }
     
-    private static async Task ProcessCallAsync(HttpClient client)
+    private static async Task ProcessCallAsync(HttpClient client, Params par)
     {
 
         var baseurl = "https://api.spoonacular.com/recipes/complexSearch?";
@@ -24,14 +24,24 @@ class Get
         var queryPrams = new Dictionary<string, string>()
         {
             ["number"] = "2",
-            ["excludeIngredients"] = "onions,tomatoes",
+            ["excludeIngredients"] = "",
+            ["diet"] = "",
             ["type"] = "main course",
             ["instructionsRequired"] = "true",
             ["addRecipeInformation"] = "true",
             ["addRecipeInstructions"] = "true",
             ["offset"] = "0"
         };
-    
+
+        string test = String.Join(",", par.Exclude);
+
+        queryPrams["excludeIngredients"] = test;
+
+        queryPrams["diet"] = par.Diet;
+        
+        if (queryPrams["excludeIngredients"] == "") queryPrams.Remove("excludeIngredients");
+        if (queryPrams["diet"] == "") queryPrams.Remove("diet");
+        
         var url = QueryHelpers.AddQueryString(baseurl, queryPrams);
         
         // var json = await client.GetStringAsync(url);
