@@ -1,0 +1,9 @@
+﻿{
+  "Exclude":[
+    "shrimp",
+    "mayonnaise",
+    "avocado",
+    "mushrooms"
+  ],
+  "Diet": null
+}
