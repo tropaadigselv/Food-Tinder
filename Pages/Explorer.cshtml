@@ -1,0 +1,26 @@
+﻿@page
+@model FoodTinderWeb.Pages.Explorer
+
+<div class="text-center">
+    <h2 class="display-6">Explorer recipes tailored to your preferences</h2>
+    
+    @if (Model.recipes.Any())
+    {
+        <ul class="list-group">
+            @foreach (var recipe in Model.recipes)
+            {
+                <li class="list-group-item">
+                    <p>
+                        @recipe.Title
+                        <br/>
+                        @recipe.analyzedInstructions
+                    </p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No recipes to show right now</p>
+    }
+</div>

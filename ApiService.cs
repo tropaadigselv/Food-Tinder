@@ -5,18 +5,15 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace FoodTinderWeb;
 
-class Get
+public class ApiService
 {
-    public static async void Start(Params par)
+    private readonly HttpClient _client;
+    public ApiService(HttpClient client)
     {
-        using HttpClient client = new();
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        client.DefaultRequestHeaders.Add("x-api-key",new StreamReader("key.txt").ReadLine());
-        await ProcessCallAsync(client, par);
+        _client = client;
     }
     
-    private static async Task ProcessCallAsync(HttpClient client, Params par)
+    public async Task<List<Recipe>> ProcessCallAsync(Params par)
     {
 
         var baseurl = "https://api.spoonacular.com/recipes/complexSearch?";
@@ -48,19 +45,20 @@ class Get
         //
         // MessageBox.Show(json);
         
-        await using Stream stream = await client.GetStreamAsync(url);
+        await using Stream stream = await _client.GetStreamAsync(url);
 
         var response = await JsonSerializer.DeserializeAsync<FoodSearchResponse>(
             stream,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
         );
+        return response.Results;
     }
 }
 
 
 public class FoodSearchResponse
 {
-    public List<Food> Results { get; set; } = new();
+    public List<Recipe> Results { get; set; } = new();
     public int Offset { get; set; }
     public int Number { get; set; }
     public int TotalResults { get; set; }

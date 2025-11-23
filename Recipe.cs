@@ -1,9 +1,10 @@
 ﻿namespace FoodTinderWeb
 {
-    public class Food
+    public class Recipe
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string SourceUrl { get; set; }
         public string Image { get; set; }
         public string ImageType { get; set; }
         public List<Instruction> analyzedInstructions  { get; set; }

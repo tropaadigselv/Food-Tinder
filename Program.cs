@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using FoodTinderWeb;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,13 @@ builder.Services.AddDefaultIdentity<FoodUser>(options =>{
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;})
 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddHttpClient<ApiService>(client =>
+{
+    client.DefaultRequestHeaders.Accept.Clear();
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    client.DefaultRequestHeaders.Add("x-api-key",new StreamReader("key.txt").ReadLine());
+});
 
 builder.Services.AddRazorPages();
 
