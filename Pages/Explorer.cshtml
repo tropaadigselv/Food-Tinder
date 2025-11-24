@@ -4,17 +4,23 @@
 <div class="text-center">
     <h2 class="display-6">Explorer recipes tailored to your preferences</h2>
     
-    @if (Model.recipes.Any())
+    @if (Model.recipes.recipes.Any())
     {
         <ul class="list-group">
-            @foreach (var recipe in Model.recipes)
+            @foreach (var recipe in Model.recipes.recipes)
             {
                 <li class="list-group-item">
+                    <img src="@recipe.Image"/>
                     <p>
                         @recipe.Title
-                        <br/>
-                        @recipe.analyzedInstructions
-                    </p>
+                    </p> <br/>
+                    @foreach (var instruction in recipe.analyzedInstructions)
+                    {
+                        foreach (var step in instruction.Steps)
+                        {
+                            <p>@step.step</p>
+                        }
+                    }
                 </li>
             }
         </ul>

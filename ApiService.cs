@@ -8,12 +8,14 @@ namespace FoodTinderWeb;
 public class ApiService
 {
     private readonly HttpClient _client;
-    public ApiService(HttpClient client)
+    private readonly ILogger<ApiService> _logger;
+    public ApiService(HttpClient client, ILogger<ApiService> logger)
     {
         _client = client;
+        _logger = logger;
     }
     
-    public async Task<List<Recipe>> ProcessCallAsync(Params par)
+    public async Task<FoodViewModel> ProcessCallAsync(Params par)
     {
 
         var baseurl = "https://api.spoonacular.com/recipes/complexSearch?";
@@ -45,16 +47,39 @@ public class ApiService
         //
         // MessageBox.Show(json);
         
-        await using Stream stream = await _client.GetStreamAsync(url);
 
-        var response = await JsonSerializer.DeserializeAsync<FoodSearchResponse>(
-            stream,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-        );
-        return response.Results;
+        var response = await _client.GetAsync(url);
+        //_logger.LogInformation("got response {response}", response.Content.ReadAsStringAsync().Result);
+        
+        var recipeIngredients = new Dictionary<string, List<string>>();
+
+
+        
+        var content = await response.Content.ReadFromJsonAsync<FoodSearchResponse>();
+        _logger.LogInformation("got contetnt {c}", content!.Results.Count);
+        foreach (var recipe in content!.Results)
+        {
+            var ingredientNames = recipe.analyzedInstructions
+                .SelectMany(i => i.Steps)
+                .SelectMany(s => s.Ingredients)
+                .Select(i => i.Name)
+                .Distinct()
+                .ToList();
+
+            recipeIngredients.Add(recipe.Title, ingredientNames!);
+        }
+        
+        return new FoodViewModel(){recipes = content.Results,ingredients = recipeIngredients};
     }
 }
 
+public class FoodViewModel
+{
+    public List<Recipe> recipes { get; set; }
+    public Dictionary<string, List<string>> ingredients { get; set; }
+    
+    
+}
 
 public class FoodSearchResponse
 {

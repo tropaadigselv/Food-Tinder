@@ -19,7 +19,7 @@
     public class Step
     {
         public int Number { get; set; }
-        public string StepText { get; set; }  // maps to "step"
+        public string step { get; set; }  // maps to "step"
         public List<Ingredient> Ingredients { get; set; }
         public List<Equipment> Equipment { get; set; }
         public Length Length { get; set; }
